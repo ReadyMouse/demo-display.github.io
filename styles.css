@@ -109,13 +109,6 @@ body {
     font-weight: 300;
 }
 
-.demo-link {
-    display: block;
-    text-decoration: none;
-    position: relative;
-    cursor: pointer;
-}
-
 .image-container {
     position: relative;
     border-radius: 20px;
@@ -124,21 +117,12 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.project-card.active .image-container:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-}
-
 .project-image {
     width: 800px;
     height: 500px;
     object-fit: cover;
     display: block;
     transition: transform 0.3s ease;
-}
-
-.project-card.active .demo-link:hover .project-image {
-    transform: scale(1.05);
 }
 
 .event-info {
@@ -150,25 +134,49 @@ body {
     font-weight: 300;
 }
 
-.github-link {
+.project-links {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.project-link {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
+    gap: 8px;
+    padding: 12px 20px;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     color: #ffffff;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.github-link:hover {
+.project-link:not(.disabled):hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
+}
+
+.project-link.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.project-link svg {
+    flex-shrink: 0;
+}
+
+.project-link span {
+    white-space: nowrap;
 }
 
 .nav-button {
@@ -332,8 +340,16 @@ body {
         margin-top: 20px;
     }
 
-    .github-link {
-        font-size: 0.9rem;
-        padding: 10px 20px;
+    .project-links {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .project-link {
+        font-size: 0.85rem;
+        padding: 10px 16px;
+        width: 100%;
+        justify-content: center;
     }
 }
