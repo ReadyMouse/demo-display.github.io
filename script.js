@@ -46,10 +46,13 @@ class CarouselController {
     }
 
     navigate(direction) {
-        const newIndex = this.currentIndex + direction;
+        let newIndex = this.currentIndex + direction;
         
-        if (newIndex < 0 || newIndex >= this.cards.length) {
-            return; // Don't navigate beyond bounds
+        // Wrap around for circular carousel
+        if (newIndex < 0) {
+            newIndex = this.cards.length - 1; // Go to last card
+        } else if (newIndex >= this.cards.length) {
+            newIndex = 0; // Go to first card
         }
         
         this.currentIndex = newIndex;
@@ -73,7 +76,17 @@ class CarouselController {
             // Remove all position classes
             card.classList.remove('active', 'left', 'right', 'far-left', 'far-right');
             
-            const offset = index - this.currentIndex;
+            // Calculate offset with wrap-around support
+            let offset = index - this.currentIndex;
+            const totalCards = this.cards.length;
+            
+            // Normalize offset to handle circular wrapping
+            // This ensures we always take the shortest path
+            if (offset > totalCards / 2) {
+                offset -= totalCards;
+            } else if (offset < -totalCards / 2) {
+                offset += totalCards;
+            }
             
             if (offset === 0) {
                 // Current card - center, full size
