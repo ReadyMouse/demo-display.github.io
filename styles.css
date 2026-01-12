@@ -1,0 +1,359 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+}
+
+.carousel-wrapper {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.project-card {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center center;
+    width: 100%;
+}
+
+/* Default state - hidden far away */
+.project-card {
+    opacity: 0;
+    transform: translateX(0) scale(0.3);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Default text state - hide text for non-active */
+.project-card .project-title,
+.project-card .project-subtitle,
+.project-card .event-info,
+.project-card .github-link {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* Active card - center, large */
+.project-card.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.project-card.active .project-title,
+.project-card.active .project-subtitle,
+.project-card.active .event-info,
+.project-card.active .github-link {
+    opacity: 1;
+}
+
+.project-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    letter-spacing: -1px;
+}
+
+.project-subtitle {
+    font-size: 1.5rem;
+    color: #a0a0a0;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: 300;
+}
+
+.demo-link {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+}
+
+.image-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card.active .image-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+}
+
+.project-image {
+    width: 800px;
+    height: 500px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.project-card.active .demo-link:hover .project-image {
+    transform: scale(1.05);
+}
+
+.event-info {
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 300;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.github-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.nav-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.nav-button-left {
+    left: 5%;
+}
+
+.nav-button-right {
+    right: 5%;
+}
+
+.indicators {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: #667eea;
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Left adjacent card */
+.project-card.left {
+    opacity: 0.5;
+    transform: translateX(-60%) scale(0.6);
+    z-index: 5;
+}
+
+/* Right adjacent card */
+.project-card.right {
+    opacity: 0.5;
+    transform: translateX(60%) scale(0.6);
+    z-index: 5;
+}
+
+/* Further left/right cards */
+.project-card.far-left {
+    opacity: 0.2;
+    transform: translateX(-100%) scale(0.4);
+    z-index: 1;
+}
+
+.project-card.far-right {
+    opacity: 0.2;
+    transform: translateX(100%) scale(0.4);
+    z-index: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .project-title {
+        font-size: 2.5rem;
+    }
+
+    .project-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .project-image {
+        width: 600px;
+        height: 375px;
+    }
+
+    .nav-button-left {
+        left: 2%;
+    }
+
+    .nav-button-right {
+        right: 2%;
+    }
+
+    .project-card .image-container {
+        transform: scale(0.4);
+    }
+
+    .project-card.adjacent .image-container {
+        transform: scale(0.55);
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-wrapper {
+        width: 90%;
+    }
+
+    .project-title {
+        font-size: 2rem;
+    }
+
+    .project-subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+
+    .project-image {
+        width: 100%;
+        height: auto;
+        max-width: 500px;
+    }
+
+    .event-info {
+        font-size: 1rem;
+    }
+
+    .nav-button {
+        width: 50px;
+        height: 50px;
+    }
+
+    .nav-button-left {
+        left: 10px;
+    }
+
+    .nav-button-right {
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-card {
+        padding: 20px;
+    }
+
+    .project-title {
+        font-size: 1.5rem;
+    }
+
+    .project-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    .project-image {
+        max-width: 100%;
+    }
+
+    .event-info {
+        font-size: 0.9rem;
+        margin-top: 20px;
+    }
+
+    .github-link {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+}
